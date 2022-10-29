@@ -1,7 +1,7 @@
 #! /bin/bash
 export GIT_MERGE_AUTOEDIT=no
 apt-get install git -y
-git config --global user.name "sai boby"
+git config --global user.name "saiboby"
 git config --global user.email "saibabu.tan@gmail.com"
 cd /opt
 git clone https://github.com/saiboby/mainservice.git
