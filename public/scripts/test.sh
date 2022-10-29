@@ -10,4 +10,4 @@ cd mainservice
 git checkout master
 git remote add servce1 https://github.com/saiboby/service1.git
 git subtree pull --prefix=demo1 servce1 master
-git push origin master
+git push https://github.com/saiboby/mainservice.git master
