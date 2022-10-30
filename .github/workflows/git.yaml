@@ -10,6 +10,6 @@ jobs:
     - name: Run script file
       run: |
          chmod +x ./public/scripts/test.sh
-         ./public/scripts/test.sh
+         ./public/scripts/test.sh ${{ secrets.GITHUB_TOKEN }}
       shell: bash
      
