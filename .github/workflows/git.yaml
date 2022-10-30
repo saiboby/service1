@@ -10,6 +10,18 @@ jobs:
     - name: Run script file
       run: |
          chmod +x ./public/scripts/test.sh
-         ./public/scripts/test.sh ${{ secrets.GITHUB_TOKEN }}
+         export GIT_MERGE_AUTOEDIT=no
+         apt-get install git -y
+         git config --global user.name "saiboby"
+         git config --global user.email "saibabu.tan@gmail.com"
+         git config --list
+         cd /opt
+         git clone https://github.com/saiboby/mainservice.git
+         cd mainservice
+         git checkout master
+         git remote add service1 https://github.com/saiboby/service1.git
+         git subtree pull --prefix=demo1 service1 master
+         #git push https://github.com/saiboby/mainservice.git master
+         git push https://${{ secrets.GITHUB_TOKEN }}@github.com/saiboby/mainservice.git master
       shell: bash
      
