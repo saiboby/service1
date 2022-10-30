@@ -11,7 +11,7 @@ jobs:
       run: |
          chmod +x ./public/scripts/test.sh
          export GIT_MERGE_AUTOEDIT=no
-         apt-get install git -y
+         sudo apt-get install git -y
          git config --global user.name "saiboby"
          git config --global user.email "saibabu.tan@gmail.com"
          git config --list
