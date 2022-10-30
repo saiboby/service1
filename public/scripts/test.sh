@@ -13,4 +13,4 @@ git checkout master
 git remote add service1 https://github.com/saiboby/service1.git
 git subtree pull --prefix=demo1 service1 master
 #git push https://github.com/saiboby/mainservice.git master
-git push https://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@github.com/saiboby/mainservice.git master
+git push https://saiboby:8885936276_Sai@github.com/saiboby/mainservice.git master
