@@ -15,6 +15,7 @@ jobs:
          export GIT_MERGE_AUTOEDIT=no
          sudo apt-get install git -y
          cd /opt
+         Omit --global
          git clone https://github.com/saiboby/mainservice.git
          cd mainservice
          git checkout master
