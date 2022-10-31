@@ -14,9 +14,6 @@ jobs:
          chmod +x ./public/scripts/test.sh
          export GIT_MERGE_AUTOEDIT=no
          sudo apt-get install git -y
-         git config --global user.name "saiboby"
-         git config --global user.email "saibabu.tan@gmail.com"
-         git config --list
          cd /opt
          git clone https://github.com/saiboby/mainservice.git
          cd mainservice
