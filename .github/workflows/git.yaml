@@ -14,5 +14,6 @@ jobs:
       run: |
          chmod +x ./public/scripts/test.sh
          git checkout ${GITHUB_HEAD_REF}
+         git branch
       shell: bash
      
