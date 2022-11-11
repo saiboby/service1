@@ -14,7 +14,6 @@ jobs:
       run: |
          sudo apt-get install git -y
          chmod +x ./public/scripts/test.sh
-         git checkout ${GITHUB_HEAD_REF}
-         git branch
+         cat ./deploy.sh
       shell: bash
      
