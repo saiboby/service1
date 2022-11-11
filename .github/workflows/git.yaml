@@ -4,7 +4,7 @@ on:
      - opened
      - edited
     branches:
-     - test
+     - test1
 jobs:
   Merge_Code:
     runs-on: ubuntu-20.04
