@@ -11,8 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run script file
-      env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       run: |
          chmod +x ./public/scripts/test.sh
          git checkout ${GITHUB_HEAD_REF}
