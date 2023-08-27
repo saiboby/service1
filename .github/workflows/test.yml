@@ -21,6 +21,7 @@ jobs:
       id: list
       with:
         token: ${{secrets.API_TOKEN}}
+        labels: '["Test3"]'
         skip_hour: '24'     
 
     - name: Prepare environment
@@ -42,7 +43,7 @@ jobs:
         echo "path2=${BADGE2_PATH}" >> "${GITHUB_OUTPUT}"
         echo "prcount=${BADGE3_PATH}" >> "${GITHUB_OUTPUT}"
         echo "branch=${BRANCH}" >> "${GITHUB_OUTPUT}"
-        echo ' the pr count is ${{ steps.list.outputs.pulls }}'
+        echo "the pr count is ${{ steps.list.outputs.pulls }}""
 
     - uses: actions/checkout@v3
       with:
@@ -87,7 +88,7 @@ jobs:
       id: badge3
       with:
         label: 'PR Count'
-        status: ${{ steps.coverage.outputs.lines }}
+        status: ${{ steps.list.outputs.pulls }}
         color: 'green,555,daf'
         path: ${{ steps.coverage.outputs.prcount }}            
 
@@ -116,7 +117,7 @@ jobs:
       run: |
         git config --local user.email "saibabu.tan@gmail.com"
         git config --local user.name "saiboby"
-        git add "${BADGE}" "${BADGE1}" "${BADGE2}" "{BADGE3}"
+        git add "${BADGE}" "${BADGE1}" "${BADGE2}" "${BADGE3}"
         git commit -m "Add/Update badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
