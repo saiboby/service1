@@ -86,7 +86,7 @@ jobs:
       id: badge3
       with:
         label: 'PR Count'
-        status: ${{ steps.list.outputs.pulls }}
+        status: '55'
         color: 'green,555,daf'
         path: ${{ steps.coverage.outputs.prcount }}            
 
@@ -115,7 +115,7 @@ jobs:
       run: |
         git config --local user.email "saibabu.tan@gmail.com"
         git config --local user.name "saiboby"
-        git add "${BADGE}" "${BADGE1}" "${BADGE2}"  "{BADGE3}"
+        git add "${BADGE}" "${BADGE1}" "${BADGE2}" "{BADGE3}"
         git commit -m "Add/Update badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
