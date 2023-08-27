@@ -21,6 +21,7 @@ jobs:
       env:
         COVERAGE: 53.5%
         BADGE_PATH: ${{ steps.extract_branch.outputs.branch }}/test-badge.svg
+        BADGE1_PATH: ${{ steps.extract_branch.outputs.branch }}/test1-badge.svg
         BRANCH: badges
       run: |
         # Generates a GitHub Workflow output named `lines` with a coverage value
@@ -28,6 +29,7 @@ jobs:
 
         # Output values to be used by other steps
         echo "path=${BADGE_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "path1=${BADGE1_PATH}" >> "${GITHUB_OUTPUT}"
         echo "branch=${BRANCH}" >> "${GITHUB_OUTPUT}"
       
 
@@ -55,17 +57,17 @@ jobs:
       uses: emibcn/badge-action@v2.0.2
       id: badge1
       with:
-        label: 'Test coverage1'
+        label: 'Test1 coverage'
         status: ${{ steps.coverage.outputs.lines }}
-        color: 'green,555,daf'
-        path: ${{ steps.coverage.outputs.path }}   
+        color: 'red,555,daf'
+        path: ${{ steps.coverage.outputs.path1 }}    
 
-    - name: Upload badge as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: badge
-        path: ${{ steps.coverage.outputs.path }}
-        if-no-files-found: error
+    # - name: Upload badge as artifact
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: badge
+    #     path: ${{ steps.coverage.outputs.path }}
+    #     if-no-files-found: error
 
     - name: Commit badge
       continue-on-error: true
