@@ -69,10 +69,10 @@ jobs:
         path: ${{ steps.coverage.outputs.path }}
         if-no-files-found: error
 
-    - name: Upload badge as artifact
+    - name: Upload badge1 as artifact
       uses: actions/upload-artifact@v3
       with:
-        name: badge1
+        name: badge
         path: ${{ steps.coverage.outputs.path1 }}
         if-no-files-found: error    
 
@@ -80,10 +80,11 @@ jobs:
       continue-on-error: true
       env:
         BADGE: ${{ steps.coverage.outputs.path }}
+        BADGE1: ${{ steps.coverage.outputs.path1 }}
       run: |
         git config --local user.email "saibabu.tan@gmail.com"
         git config --local user.name "saiboby"
-        git add "${BADGE}"
+        git add "${BADGE}" "${BADGE1}"
         git commit -m "Add/Update badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
