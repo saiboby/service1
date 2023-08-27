@@ -31,7 +31,7 @@ jobs:
         BADGE_PATH: ${{ steps.extract_branch.outputs.branch }}/test-badge.svg
         BADGE1_PATH: ${{ steps.extract_branch.outputs.branch }}/test1-badge.svg
         BADGE2_PATH: ${{ steps.extract_branch.outputs.branch }}/test2-badge.svg
-        BADGE3_PATH: ${{ steps.extract_branch.outputs.branch }}/pr-badge.svg        
+        BADGE3_PATH: ${{ steps.extract_branch.outputs.branch }}/pr-badge.svg
         BRANCH: badges
       run: |
         # Generates a GitHub Workflow output named `lines` with a coverage value
@@ -43,7 +43,7 @@ jobs:
         echo "path2=${BADGE2_PATH}" >> "${GITHUB_OUTPUT}"
         echo "prcount=${BADGE3_PATH}" >> "${GITHUB_OUTPUT}"
         echo "branch=${BRANCH}" >> "${GITHUB_OUTPUT}"
-        echo "the pr count is ${{ steps.list.outputs.pulls }}""
+        echo "the pr count is ${{ steps.list.outputs.pulls }}"
 
     - uses: actions/checkout@v3
       with:
