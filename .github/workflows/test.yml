@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-    - 'master'
+    - '*'
     - '!badges'
 
 jobs:
@@ -14,23 +14,13 @@ jobs:
     - name: Extract branch name
       id: extract_branch
       shell: bash
-      run: echo "branch=${GITHUB_REF#refs/heads/}" >> "${GITHUB_OUTPUT}"   
-
-    - name: listPullRequests
-      uses: buildsville/list-pull-requests@v1
-      id: list
-      with:
-        token: ${{secrets.API_TOKEN}}
-        skip_hour: '24'     
+      run: echo "branch=${GITHUB_REF#refs/heads/}" >> "${GITHUB_OUTPUT}"      
 
     - name: Prepare environment
       id: coverage
       env:
         COVERAGE: 53.5%
         BADGE_PATH: ${{ steps.extract_branch.outputs.branch }}/test-badge.svg
-        BADGE1_PATH: ${{ steps.extract_branch.outputs.branch }}/test1-badge.svg
-        BADGE2_PATH: ${{ steps.extract_branch.outputs.branch }}/test2-badge.svg
-        prcountpath: ${{ steps.extract_branch.outputs.branch }}/pr-badge.svg        
         BRANCH: badges
       run: |
         # Generates a GitHub Workflow output named `lines` with a coverage value
@@ -38,10 +28,8 @@ jobs:
 
         # Output values to be used by other steps
         echo "path=${BADGE_PATH}" >> "${GITHUB_OUTPUT}"
-        echo "path1=${BADGE1_PATH}" >> "${GITHUB_OUTPUT}"
-        echo "path2=${BADGE2_PATH}" >> "${GITHUB_OUTPUT}"
-        echo "prcount=${prcountpath}" >> "${GITHUB_OUTPUT}"
         echo "branch=${BRANCH}" >> "${GITHUB_OUTPUT}"
+      
 
     - uses: actions/checkout@v3
       with:
@@ -63,59 +51,21 @@ jobs:
         color: 'blue,555,daf'
         path: ${{ steps.coverage.outputs.path }}
 
-    - name: Generate the badge SVG image
-      uses: emibcn/badge-action@v2.0.2
-      id: badge1
+    - name: Upload badge as artifact
+      uses: actions/upload-artifact@v3
       with:
-        label: 'Test1 coverage'
-        status: ${{ steps.coverage.outputs.lines }}
-        color: 'red,555,daf'
-        path: ${{ steps.coverage.outputs.path1 }}
-
-    - name: Generate the badge SVG image
-      uses: emibcn/badge-action@v2.0.2
-      id: badge2
-      with:
-        label: 'Test2 coverage'
-        status: ${{ steps.coverage.outputs.lines }}
-        color: 'green,555,daf'
-        path: ${{ steps.coverage.outputs.path2 }}
-
-    - name: Generate the PR badge SVG image
-      uses: emibcn/badge-action@v2.0.2
-      id: badge3
-      with:
-        label: 'PR Count'
-        status: ${{ steps.coverage.outputs.lines }}
-        color: 'green,555,daf'
-        path: ${{ steps.coverage.outputs.prcount }}            
-
-    # - name: Upload badge as artifact
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: badge
-    #     path: ${{ steps.coverage.outputs.path }}
-    #     if-no-files-found: error
-
-    # - name: Upload badge1 as artifact
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: badge
-    #     path: ${{ steps.coverage.outputs.path1 }}
-    #     if-no-files-found: error    
+        name: badge
+        path: ${{ steps.coverage.outputs.path }}
+        if-no-files-found: error
 
     - name: Commit badge
       continue-on-error: true
       env:
         BADGE: ${{ steps.coverage.outputs.path }}
-        BADGE1: ${{ steps.coverage.outputs.path1 }}
-        BADGE2: ${{ steps.coverage.outputs.path2 }}
-        BADGE3: ${{ steps.coverage.outputs.prcount }}
-
       run: |
         git config --local user.email "saibabu.tan@gmail.com"
         git config --local user.name "saiboby"
-        git add "${BADGE}" "${BADGE1}" "${BADGE2}" "{BADGE3}"
+        git add "${BADGE}"
         git commit -m "Add/Update badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
