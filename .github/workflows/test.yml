@@ -55,22 +55,12 @@ jobs:
 
     - name: Generate the badge SVG image
       uses: emibcn/badge-action@v2.0.2
-      id: badge
+      id: badge1
       with:
         label: 'Test1 coverage'
         status: ${{ steps.coverage.outputs.lines }}
         color: 'red,555,daf'
         path: ${{ steps.coverage.outputs.path1 }}    
-
-    - name: Generate the badge SVG image
-      uses: emibcn/badge-action@v2.0.2
-      id: badge
-      with:
-        label: 'Test coverage1'
-        status: ${{ steps.coverage.outputs.lines }}
-        color: 'green,555,daf'
-        path: ${{ steps.coverage.outputs.path }}
-
 
     - name: Upload badge as artifact
       uses: actions/upload-artifact@v3
