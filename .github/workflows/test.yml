@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-    - '*'
+    - 'master'
     - '!badges'
 
 jobs:
@@ -50,6 +50,15 @@ jobs:
         status: ${{ steps.coverage.outputs.lines }}
         color: 'blue,555,daf'
         path: ${{ steps.coverage.outputs.path }}
+
+    - name: Generate the badge SVG image
+      uses: emibcn/badge-action@v2.0.2
+      id: badge1
+      with:
+        label: 'Test coverage1'
+        status: ${{ steps.coverage.outputs.lines }}
+        color: 'green,555,daf'
+        path: ${{ steps.coverage.outputs.path }}   
 
     - name: Upload badge as artifact
       uses: actions/upload-artifact@v3
