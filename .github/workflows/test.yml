@@ -14,7 +14,14 @@ jobs:
     - name: Extract branch name
       id: extract_branch
       shell: bash
-      run: echo "branch=${GITHUB_REF#refs/heads/}" >> "${GITHUB_OUTPUT}"      
+      run: echo "branch=${GITHUB_REF#refs/heads/}" >> "${GITHUB_OUTPUT}"   
+
+    - name: listPullRequests
+      uses: buildsville/list-pull-requests@v1
+      id: list
+      with:
+        token: ${{secrets.API_TOKEN}}
+        skip_hour: '24'     
 
     - name: Prepare environment
       id: coverage
@@ -23,6 +30,7 @@ jobs:
         BADGE_PATH: ${{ steps.extract_branch.outputs.branch }}/test-badge.svg
         BADGE1_PATH: ${{ steps.extract_branch.outputs.branch }}/test1-badge.svg
         BADGE2_PATH: ${{ steps.extract_branch.outputs.branch }}/test2-badge.svg
+        prcountpath: ${{ steps.extract_branch.outputs.branch }}/pr_count_badge.svg        
         BRANCH: badges
       run: |
         # Generates a GitHub Workflow output named `lines` with a coverage value
@@ -32,21 +40,8 @@ jobs:
         echo "path=${BADGE_PATH}" >> "${GITHUB_OUTPUT}"
         echo "path1=${BADGE1_PATH}" >> "${GITHUB_OUTPUT}"
         echo "path2=${BADGE2_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "prcount=${prcountpath}" >> "${GITHUB_OUTPUT}"
         echo "branch=${BRANCH}" >> "${GITHUB_OUTPUT}"
-
-    - name: listPullRequests
-      uses: buildsville/list-pull-requests@v1
-      id: list
-      with:
-        token: ${{secrets.API_TOKEN}}
-        skip_hour: '24'
-
-    - name: exportingprlist
-      id: prcount
-      env: 
-        prcountpath: ${{ steps.extract_branch.outputs.branch }}/pr_count_badge.svg        
-      run: |        
-        echo "prcount=${prcountpath}" >> "${GITHUB_OUTPUT}"      
 
     - uses: actions/checkout@v3
       with:
@@ -93,7 +88,7 @@ jobs:
         label: 'PR Count'
         status: ${{ steps.list.outputs.pulls }}
         color: 'green,555,daf'
-        path: ${{ steps.prcount.outputs.prcount }}            
+        path: ${{ steps.coverage.outputs.prcount }}            
 
     # - name: Upload badge as artifact
     #   uses: actions/upload-artifact@v3
@@ -115,7 +110,7 @@ jobs:
         BADGE: ${{ steps.coverage.outputs.path }}
         BADGE1: ${{ steps.coverage.outputs.path1 }}
         BADGE2: ${{ steps.coverage.outputs.path2 }}
-        BADGE3: ${{ steps.prcount.outputs.prcount }}
+        BADGE3: ${{ steps.coverage.outputs.prcount }}
 
       run: |
         git config --local user.email "saibabu.tan@gmail.com"
